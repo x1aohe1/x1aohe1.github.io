@@ -3,12 +3,32 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>内容管理系统</title>
-  <script src="./js/decap-cms.js"></script>
+  <title>Content Manager</title>
+  <!-- 加载 Decap CMS -->
+  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
 </head>
 <body>
+  <!-- 添加一个容器元素 -->
+  <div id="nc-root"></div>
+  
   <script>
-    CMS.init();
+    // 等待页面加载完成
+    document.addEventListener('DOMContentLoaded', function() {
+      // 检查 CMS 是否已加载
+      if (window.CMS) {
+        console.log('CMS loaded successfully');
+        CMS.init();
+      } else {
+        console.error('CMS not found');
+        // 备用加载方案
+        const script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/decap-cms@^3.0.0/dist/decap-cms.js';
+        script.onload = function() {
+          CMS.init();
+        };
+        document.head.appendChild(script);
+      }
+    });
   </script>
 </body>
 </html>
