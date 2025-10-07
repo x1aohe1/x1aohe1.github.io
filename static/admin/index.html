@@ -4,29 +4,34 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Content Manager</title>
-  <!-- 加载 Decap CMS -->
-  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  
+  <!-- 使用明确的版本 -->
+  <!--<script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>-->
+  
+  <!-- 或者使用固定版本 -->
+   <script src="https://unpkg.com/decap-cms@3.8.4/dist/decap-cms.js"></script> 
 </head>
 <body>
-  <!-- 添加一个容器元素 -->
+  <!-- 确保这个容器存在 -->
   <div id="nc-root"></div>
   
   <script>
-    // 等待页面加载完成
+    // 等待 DOM 完全加载
     document.addEventListener('DOMContentLoaded', function() {
-      // 检查 CMS 是否已加载
-      if (window.CMS) {
-        console.log('CMS loaded successfully');
+      // 确认根元素存在
+      const rootElement = document.getElementById('nc-root');
+      if (rootElement) {
+        // 初始化 CMS
         CMS.init();
+        
+        // 或者使用 window.CMS
+        if (window.CMS) {
+          window.CMS.init();
+        } else {
+          console.error('CMS object not found');
+        }
       } else {
-        console.error('CMS not found');
-        // 备用加载方案
-        const script = document.createElement('script');
-        script.src = 'https://cdn.jsdelivr.net/npm/decap-cms@^3.0.0/dist/decap-cms.js';
-        script.onload = function() {
-          CMS.init();
-        };
-        document.head.appendChild(script);
+        console.error('Root element #nc-root not found');
       }
     });
   </script>
