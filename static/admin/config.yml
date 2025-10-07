@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: x1aohe1/x1aohe1.github.io  # 你的仓库
+  repo: https://github.com/x1aohe1/x1aohe1.github.io  # 你的仓库
   branch: main              # 默认分支
   base_url: https://x1aohe1.github.io  # 你的站点地址（可选）
 
