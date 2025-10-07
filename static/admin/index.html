@@ -5,34 +5,44 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Content Manager</title>
   
-  <!-- 使用明确的版本 -->
-  <!--<script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>-->
+  <!-- 使用固定版本的 Decap CMS -->
+  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
   
-  <!-- 或者使用固定版本 -->
-   <script src="https://unpkg.com/decap-cms@3.8.4/dist/decap-cms.js"></script> 
+  <!-- 备用 CDN -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/decap-cms@^3.0.0/dist/decap-cms.js"></script> -->
 </head>
 <body>
-  <!-- 确保这个容器存在 -->
+  <!-- 添加明确的根元素 -->
   <div id="nc-root"></div>
   
   <script>
-    // 等待 DOM 完全加载
+    // 确保 DOM 完全加载后再初始化
     document.addEventListener('DOMContentLoaded', function() {
-      // 确认根元素存在
-      const rootElement = document.getElementById('nc-root');
-      if (rootElement) {
-        // 初始化 CMS
-        CMS.init();
-        
-        // 或者使用 window.CMS
-        if (window.CMS) {
+      console.log('DOM loaded, checking for CMS...');
+      
+      // 等待一小段时间确保脚本加载完成
+      setTimeout(function() {
+        if (typeof CMS !== 'undefined') {
+          console.log('CMS found, initializing...');
+          CMS.init();
+        } else if (window.CMS) {
+          console.log('window.CMS found, initializing...');
           window.CMS.init();
         } else {
-          console.error('CMS object not found');
+          console.error('CMS not found. Script may not have loaded properly.');
+          
+          // 尝试动态加载
+          var script = document.createElement('script');
+          script.src = 'https://unpkg.com/decap-cms@3.8.4/dist/decap-cms.js';
+          script.onload = function() {
+            console.log('Script loaded dynamically, initializing CMS...');
+            if (window.CMS) {
+              window.CMS.init();
+            }
+          };
+          document.head.appendChild(script);
         }
-      } else {
-        console.error('Root element #nc-root not found');
-      }
+      }, 100);
     });
   </script>
 </body>
