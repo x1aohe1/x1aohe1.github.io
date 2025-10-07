@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Stories on My New Hugo Site</title>
+    <link>http://localhost:1313/stories/</link>
+    <description>Recent content in Stories on My New Hugo Site</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 15 Mar 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/stories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>运营第一天，在仓库里打螺丝</title>
+      <link>http://localhost:1313/stories/first-story/</link>
+      <pubDate>Fri, 15 Mar 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/stories/first-story/</guid>
+      <description>&lt;p&gt;原来运营也要亲手打包发货，在仓库里找到了奇妙的节奏感。原来每一个订单背后都是真实的手工劳动&amp;hellip;&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
