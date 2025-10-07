@@ -4,45 +4,48 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Content Manager</title>
-  
-  <!-- 使用固定版本的 Decap CMS -->
-  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
-  
-  <!-- 备用 CDN -->
-  <!-- <script src="https://cdn.jsdelivr.net/npm/decap-cms@^3.0.0/dist/decap-cms.js"></script> -->
+  <script>
+    // 防止重复初始化
+    window.CMS_MANUAL_INIT = true;
+  </script>
 </head>
 <body>
-  <!-- 添加明确的根元素 -->
-  <div id="nc-root"></div>
+  <!-- 确保有足够的容器内容 -->
+  <div id="nc-root">
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+  </div>
+
+  <!-- 放在 body 末尾 -->
+  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
   
   <script>
-    // 确保 DOM 完全加载后再初始化
-    document.addEventListener('DOMContentLoaded', function() {
-      console.log('DOM loaded, checking for CMS...');
+    // 等待所有资源加载完成
+    window.addEventListener('load', function() {
+      console.log('Page fully loaded');
       
-      // 等待一小段时间确保脚本加载完成
+      // 额外的安全延迟
       setTimeout(function() {
-        if (typeof CMS !== 'undefined') {
-          console.log('CMS found, initializing...');
-          CMS.init();
-        } else if (window.CMS) {
-          console.log('window.CMS found, initializing...');
-          window.CMS.init();
+        if (window.CMS) {
+          console.log('Initializing CMS...');
+          try {
+            CMS.init();
+            console.log('CMS initialized successfully');
+          } catch (error) {
+            console.error('CMS initialization failed:', error);
+            // 显示错误信息
+            document.getElementById('nc-root').innerHTML = 
+              '<div style="padding: 20px; color: red;">' +
+              '<h3>CMS Loading Error</h3>' +
+              '<p>Please refresh the page or try again later.</p>' +
+              '<button onclick="window.location.reload()">Reload Page</button>' +
+              '</div>';
+          }
         } else {
-          console.error('CMS not found. Script may not have loaded properly.');
-          
-          // 尝试动态加载
-          var script = document.createElement('script');
-          script.src = 'https://unpkg.com/decap-cms@3.8.4/dist/decap-cms.js';
-          script.onload = function() {
-            console.log('Script loaded dynamically, initializing CMS...');
-            if (window.CMS) {
-              window.CMS.init();
-            }
-          };
-          document.head.appendChild(script);
+          console.error('CMS object not found');
+          document.getElementById('nc-root').innerHTML = 
+            '<div style="padding: 20px; color: red;">CMS script failed to load. Please refresh.</div>';
         }
-      }, 100);
+      }, 500);
     });
   </script>
 </body>
