@@ -3,6 +3,7 @@ backend:
   repo: x1aohe1/x1aohe1.github.io  # 你的仓库
   branch: main              # 默认分支
   base_url: https://x1aohe1.github.io  # 你的站点地址（可选）
+  auth_type: implicit
 
 media_folder: "static/images"  # 媒体文件存储路径
 public_folder: "/images"       # 网站中访问图片的路径
