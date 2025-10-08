@@ -2,7 +2,6 @@ backend:
   name: github
   repo: x1aohe1/x1aohe1.github.io
   branch: main
-  base_url: https://oauth-proxy.decapcms.org
   auth_type: implicit
   # 重要：使用 client_id 而不是 app_id！
   client_id: Ov23liUDGabIOat1t2KY
