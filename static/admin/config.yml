@@ -2,12 +2,11 @@ backend:
   name: github
   repo: x1aohe1/x1aohe1.github.io
   branch: main
-  base_url: https://x1aohe1.github.io
-  auth_type: web  # 改为 web
+  auth_type: web
   client_id: Ov23liUDGabIOat1t2KY
-  scope: repo,user:email  # 添加这行
+  scope: repo,user:email
 
-site_url: https://x1aohe1.github.io  # 添加这行
+site_url: https://x1aohe1.github.io
 display_url: https://x1aohe1.github.io
 
 media_folder: "static/images"
@@ -15,25 +14,25 @@ public_folder: "/images"
 
 collections:
   - name: "stories"
-    label: "故事日志"
+    label: "Stories"
     folder: "content/stories"
     create: true
     slug: "{{slug}}"
     fields:
-      - { label: "标题", name: "title", widget: "string" }
-      - { label: "发布时间", name: "date", widget: "datetime" }
-      - { label: "标签", name: "tags", widget: "string" }
-      - { label: "正文", name: "body", widget: "markdown" }
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Publish Date", name: "date", widget: "datetime" }
+      - { label: "Tags", name: "tags", widget: "string" }
+      - { label: "Content", name: "body", widget: "markdown" }
 
   - name: "projects"
-    label: "项目"
+    label: "Projects"
     folder: "content/projects"
     create: true
     slug: "{{slug}}"
     fields:
-      - { label: "项目名称", name: "title", widget: "string" }
-      - { label: "创建时间", name: "date", widget: "datetime" }
-      - { label: "进度", name: "progress", widget: "number", value_type: "int" }
-      - { label: "需求", name: "needs", widget: "list", default: [] }
-      - { label: "项目描述", name: "description", widget: "string" }
-      - { label: "详细内容", name: "body", widget: "markdown" }
+      - { label: "Project Name", name: "title", widget: "string" }
+      - { label: "Create Date", name: "date", widget: "datetime" }
+      - { label: "Progress", name: "progress", widget: "number", value_type: "int" }
+      - { label: "Requirements", name: "needs", widget: "list", default: [] }
+      - { label: "Description", name: "description", widget: "string" }
+      - { label: "Details", name: "body", widget: "markdown" }
