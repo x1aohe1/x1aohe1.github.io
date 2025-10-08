@@ -4,7 +4,7 @@ backend:
   branch: main
   base_url: https://x1aohe1.github.io
   auth_type: web  # 改为 web
-  app_id: Ov23liUDGabIOat1t2KY
+  client_id: Ov23liUDGabIOat1t2KY
   scope: repo,user:email  # 添加这行
 
 site_url: https://x1aohe1.github.io  # 添加这行
