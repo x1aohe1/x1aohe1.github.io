@@ -1,102 +1,72 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html>
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>内容管理系统 - 张大的实验室</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Content Manager</title>
+  <script>
+    window.CMS_MANUAL_INIT = true;
     
-    <!-- 引入 Decap CMS -->
-    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
-    
-    <style>
-        #loading {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    // 直接在HTML中定义配置
+    window.DECAP_CMS_CONFIG = {
+      backend: {
+        name: "github",
+        repo: "x1aohe1/x1aohe1.github.io",
+        branch: "main",
+        auth_type: "web",
+        client_id: "Ov23liUDGabIOat1t2KY",
+        scope: "repo,user:email"
+      },
+      site_url: "https://x1aohe1.github.io",
+      display_url: "https://x1aohe1.github.io",
+      media_folder: "static/images",
+      public_folder: "/images",
+      collections: [
+        {
+          name: "posts",
+          label: "Posts",
+          folder: "content/posts",
+          create: true,
+          slug: "{{slug}}",
+          fields: [
+            { label: "Title", name: "title", widget: "string" },
+            { label: "Body", name: "body", widget: "markdown" }
+          ]
         }
-        .spinner {
-            width: 30px;
-            height: 30px;
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid #4a6cf7;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-right: 12px;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-    </style>
+      ]
+    };
+  </script>
 </head>
 <body>
-    <div id="loading">
-        <div class="spinner"></div>
-        <div>正在加载内容管理系统...</div>
-    </div>
+  <div id="nc-root">
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+  </div>
 
-    <!-- CMS 容器 -->
-    <div id="nc-root"></div>
-
-    <script>
-        // 等待页面和 CMS 脚本完全加载
-        document.addEventListener('DOMContentLoaded', function() {
-            // 检查 CMS 是否已加载
-            if (typeof CMS !== 'undefined') {
-                initializeCMS();
-            } else {
-                // 如果 CMS 还没加载，等待一下再重试
-                setTimeout(function() {
-                    if (typeof CMS !== 'undefined') {
-                        initializeCMS();
-                    } else {
-                        console.error('CMS 未加载');
-                        document.getElementById('loading').innerHTML = 
-                            '<div style="color: red; text-align: center; padding: 20px;">' +
-                            '<h3>加载错误</h3>' +
-                            '<p>内容管理系统加载失败，请刷新页面重试</p>' +
-                            '</div>';
-                    }
-                }, 1000);
-            }
-        });
-
-        function initializeCMS() {
-            try {
-                console.log('初始化 Decap CMS...');
-                
-                // 初始化 CMS
-                CMS.init();
-                
-                // 监听 CMS 就绪事件
-                CMS.registerEventListener({
-                    name: 'preview',
-                    handler: ({ entry, data }) => {
-                        console.log('CMS 已就绪');
-                        // 隐藏加载界面
-                        document.getElementById('loading').style.display = 'none';
-                    }
-                });
-                
-                // 备用：3秒后隐藏加载界面
-                setTimeout(function() {
-                    const loading = document.getElementById('loading');
-                    if (loading && loading.style.display !== 'none') {
-                        loading.style.display = 'none';
-                    }
-                }, 3000);
-                
-            } catch (error) {
-                console.error('CMS 初始化失败:', error);
-                document.getElementById('loading').innerHTML = 
-                    '<div style="color: red; text-align: center; padding: 20px;">' +
-                    '<h3>初始化错误</h3>' +
-                    '<p>' + error.message + '</p>' +
-                    '</div>';
-            }
+  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  
+  <script>
+    window.addEventListener('load', function() {
+      console.log('Page fully loaded');
+      console.log('Config available:', window.DECAP_CMS_CONFIG);
+      
+      setTimeout(function() {
+        if (window.CMS) {
+          console.log('Initializing CMS with inline config...');
+          try {
+            // 使用内联配置初始化
+            CMS.init({ config: window.DECAP_CMS_CONFIG });
+            console.log('CMS initialized successfully');
+            
+            setTimeout(() => {
+              console.log('Backend after init:', CMS.getBackend());
+            }, 1000);
+            
+          } catch (error) {
+            console.error('CMS initialization failed:', error);
+          }
         }
-    </script>
+      }, 500);
+    });
+  </script>
 </body>
 </html>

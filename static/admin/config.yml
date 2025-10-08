@@ -3,18 +3,16 @@ backend:
   repo: x1aohe1/x1aohe1.github.io
   branch: main
   base_url: https://oauth-proxy.decapcms.org
-  auth_scope: public_repo
+  auth_type: implicit
+  # 重要：使用 client_id 而不是 app_id！
   client_id: Ov23liUDGabIOat1t2KY
-  open_authoring: false
+  scope: repo,user:email
 
-locale: "zh"
-site_url: "https://x1aohe1.github.io"
-display_url: "https://x1aohe1.github.io"
-logo_url: "/images/logo.png"
+site_url: https://x1aohe1.github.io
+display_url: https://x1aohe1.github.io
 
-publish_mode: editorial_workflow
-media_folder: "static/images/uploads"
-public_folder: "/images/uploads"
+media_folder: "static/images"
+public_folder: "/images"
 
 collections:
   - name: "stories"
