@@ -4,9 +4,9 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>内容管理系统</title>
-  <!-- 直接使用 Decap CMS 的官方CDN -->
+  
   <script>
-    // 日志系统 - 使用 localStorage 持久化存储
+    // 日志系统
     const cmsLog = {
       logs: JSON.parse(localStorage.getItem('cms_debug_log')) || [],
       
@@ -19,7 +19,6 @@
           hash: window.location.hash
         };
         this.logs.push(entry);
-        // 只保留最近50条日志
         if (this.logs.length > 50) this.logs.shift();
         localStorage.setItem('cms_debug_log', JSON.stringify(this.logs));
         console.log('CMS DEBUG:', message, data);
@@ -36,71 +35,76 @@
       }
     };
 
-    // 记录页面加载
-    cmsLog.add('页面加载', {
-      href: window.location.href,
-      hash: window.location.hash,
-      search: window.location.search
-    });
+    cmsLog.add('页面开始加载');
   </script>
 </head>
 <body>
-<div id="cms-root">
+  <div id="cms-root">
     <h2>Decap CMS 加载中...</h2>
     <button onclick="cmsLog.show()">显示调试日志</button>
     <button onclick="cmsLog.clear()">清除日志</button>
   </div>
 
-<script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  <!-- 脚本放在body底部是正确的 -->
+  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  
   <script>
-    // 记录脚本加载完成
-    cmsLog.add('Decap CMS 脚本加载完成', {
+    // 关键改进：延迟检查CMS对象
+    cmsLog.add('脚本标签已执行');
+    
+    // 方法1：立即检查（可能太早）
+    cmsLog.add('立即检查CMS对象', {
       CMS: typeof window.CMS,
       DecapCms: typeof window.DecapCms
     });
-
-    // 监听 hash 变化（OAuth 回调时会带 token 在 hash 中）
-    window.addEventListener('hashchange', function() {
-      cmsLog.add('URL Hash 变化', {
-        oldURL: event.oldURL,
-        newURL: event.newURL,
-        currentHash: window.location.hash
+    
+    // 方法2：延迟检查（给脚本时间初始化）
+    setTimeout(() => {
+      cmsLog.add('延迟检查CMS对象', {
+        CMS: typeof window.CMS,
+        DecapCms: typeof window.DecapCms,
+        CMS_details: window.CMS ? '存在' : '不存在',
+        DecapCms_details: window.DecapCms ? '存在' : '不存在'
       });
-    });
-
-    // 页面卸载时记录（窗口关闭）
-    window.addEventListener('beforeunload', function() {
-      cmsLog.add('页面即将卸载/关闭');
-    });
-
-    // DOM 加载完成后记录
+      
+      // 尝试初始化
+      if (window.CMS && typeof window.CMS.init === 'function') {
+        cmsLog.add('开始初始化 CMS');
+        try {
+          window.CMS.init();
+          cmsLog.add('CMS 初始化成功！');
+          document.getElementById('cms-root').innerHTML = '<h2>CMS 初始化成功！</h2>';
+        } catch (error) {
+          cmsLog.add('CMS 初始化错误', error.toString());
+          document.getElementById('cms-root').innerHTML = '<h2>初始化错误: ' + error.toString() + '</h2>';
+        }
+      } else if (window.DecapCms && typeof window.DecapCms.init === 'function') {
+        cmsLog.add('开始初始化 DecapCms');
+        try {
+          window.DecapCms.init();
+          cmsLog.add('DecapCms 初始化成功！');
+          document.getElementById('cms-root').innerHTML = '<h2>Decap CMS 初始化成功！</h2>';
+        } catch (error) {
+          cmsLog.add('DecapCms 初始化错误', error.toString());
+          document.getElementById('cms-root').innerHTML = '<h2>初始化错误: ' + error.toString() + '</h2>';
+        }
+      } else {
+        cmsLog.add('错误: 未找到可用的CMS初始化方法');
+        document.getElementById('cms-root').innerHTML = '<h2>错误: CMS对象未正确初始化</h2>';
+        
+        // 列出所有可能的全局变量
+        const possibleGlobals = Object.keys(window).filter(k => 
+          k.toLowerCase().includes('cms') || 
+          k.toLowerCase().includes('decap')
+        );
+        cmsLog.add('相关的全局变量', possibleGlobals);
+      }
+    }, 1000); // 延迟1秒，确保脚本完全执行
+    
+    // DOM 加载完成
     document.addEventListener('DOMContentLoaded', function() {
       cmsLog.add('DOM 加载完成');
     });
-
-    // 检查是否有认证相关的 URL 参数
-    const urlParams = new URLSearchParams(window.location.search);
-    const hashParams = new URLSearchParams(window.location.hash.substring(1));
-    
-    cmsLog.add('URL 参数分析', {
-      searchParams: Object.fromEntries(urlParams),
-      hashParams: Object.fromEntries(hashParams),
-      hasAccessToken: hashParams.has('access_token'),
-      hasError: hashParams.has('error')
-    });
-
-    // 初始化 CMS
-    if (typeof window.CMS !== 'undefined') {
-      cmsLog.add('开始初始化 CMS');
-      try {
-        window.CMS.init();
-        cmsLog.add('CMS 初始化完成');
-      } catch (error) {
-        cmsLog.add('CMS 初始化错误', error.toString());
-      }
-    } else {
-      cmsLog.add('错误: CMS 对象未定义');
-    }
-  </script> 
+  </script>
 </body>
 </html>
