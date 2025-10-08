@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Projects on My New Hugo Site</title>
-    <link>http://localhost:1313/projects/</link>
-    <description>Recent content in Projects on My New Hugo Site</description>
+    <title>Projects on 张三的创作实验室</title>
+    <link>https://x1aohe1.github.io/projects/</link>
+    <description>Recent content in Projects on 张三的创作实验室</description>
     <generator>Hugo</generator>
-    <language>en-us</language>
+    <language>zh-cn</language>
     <lastBuildDate>Wed, 01 Oct 2025 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/projects/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://x1aohe1.github.io/projects/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>运营知识库搭建</title>
-      <link>http://localhost:1313/projects/operational-knowledge-base/</link>
+      <link>https://x1aohe1.github.io/projects/operational-knowledge-base/</link>
       <pubDate>Wed, 01 Oct 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/projects/operational-knowledge-base/</guid>
-      <description>&lt;h2 id=&#34;项目详情&#34;&gt;项目详情&lt;/h2&gt;&#xA;&lt;p&gt;这里是关于项目的详细描述&amp;hellip;&lt;/p&gt;&#xA;&lt;h3 id=&#34;当前进展&#34;&gt;当前进展&lt;/h3&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;input disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; 筹划中&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h3 id=&#34;需要的帮助&#34;&gt;需要的帮助&lt;/h3&gt;&#xA;&lt;p&gt;目前我们正在寻找：&lt;/p&gt;&#xA;&lt;p&gt;如果你对这些领域感兴趣，欢迎联系我！&lt;/p&gt;</description>
+      <guid>https://x1aohe1.github.io/projects/operational-knowledge-base/</guid>
+      <description>&lt;h2 id=&#34;项目详情&#34;&gt;项目详情&lt;/h2&gt;&#xA;&lt;p&gt;这里是关于项目的详细描述&lt;/p&gt;&#xA;&lt;h3 id=&#34;当前进展&#34;&gt;当前进展&lt;/h3&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;input disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; 筹划中&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h3 id=&#34;需要的帮助&#34;&gt;需要的帮助&lt;/h3&gt;&#xA;&lt;p&gt;目前我们正在寻找：&lt;/p&gt;&#xA;&lt;p&gt;如果你对这些领域感兴趣，欢迎联系我！&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

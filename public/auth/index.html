@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Auth Callback</title>
+</head>
+<body>
+  <script>
+    console.log('Auth callback loaded');
+    
+    function sendAuthMessage() {
+      if (window.opener) {
+        const message = {
+          type: 'authorization',
+          data: window.location.href
+        };
+        console.log('Sending auth message: ', message);
+        window.opener.postMessage(message, 'https://x1aohe1.github.io');
+        
+        // 尝试关闭窗口
+        setTimeout(() => {
+          if (!window.closed) {
+            window.close();
+          }
+        }, 1000);
+      } else {
+        console.error('No opener window found');
+      }
+    }
+    
+    // 立即发送消息，不等待特定条件
+    sendAuthMessage();
+  </script>
+  
+  <div style="padding: 20px; text-align: center;">
+    <h3>认证处理中...</h3>
+    <p>如果页面没有自动关闭，请手动关闭此窗口。</p>
+    <button onclick="window.close()">关闭窗口</button>
+  </div>
+</body>
+</html>
