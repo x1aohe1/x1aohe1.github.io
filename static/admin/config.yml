@@ -2,33 +2,17 @@ backend:
   name: git-gateway
   branch: main
 
-site_url: https://68e641d3da075900085bc39b--relaxed-puffpuff-4f6d04.netlify.app  # 替换为您的Netlify域名
+site_url: https://68e641d3da075900085bc39b--relaxed-puffpuff-4f6d04.netlify.app
 display_url: https://68e641d3da075900085bc39b--relaxed-puffpuff-4f6d04.netlify.app
 
 media_folder: "static/images"
 public_folder: "/images"
 
 collections:
-  - name: "stories"
-    label: "Stories"
-    folder: "content/stories"
+  - name: "posts"
+    label: "Posts"
+    folder: "content/posts"
     create: true
-    slug: "{{slug}}"
     fields:
       - { label: "Title", name: "title", widget: "string" }
-      - { label: "Publish Date", name: "date", widget: "datetime" }
-      - { label: "Tags", name: "tags", widget: "string" }
-      - { label: "Content", name: "body", widget: "markdown" }
-
-  - name: "projects"
-    label: "Projects"
-    folder: "content/projects"
-    create: true
-    slug: "{{slug}}"
-    fields:
-      - { label: "Project Name", name: "title", widget: "string" }
-      - { label: "Create Date", name: "date", widget: "datetime" }
-      - { label: "Progress", name: "progress", widget: "number", value_type: "int" }
-      - { label: "Requirements", name: "needs", widget: "list", default: [] }
-      - { label: "Description", name: "description", widget: "string" }
-      - { label: "Details", name: "body", widget: "markdown" }
+      - { label: "Body", name: "body", widget: "markdown" }

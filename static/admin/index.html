@@ -5,85 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Content Manager</title>
   <script>
-    // 防止重复初始化
     window.CMS_MANUAL_INIT = true;
   </script>
 </head>
 <body>
-  <!-- 确保有足够的容器内容 -->
   <div id="nc-root">
     <noscript>You need to enable JavaScript to run this app.</noscript>
   </div>
 
-  <!-- 放在 body 末尾 -- >
-<script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js">
+  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
   
   <script>
-
-    // 在 CMS.init() 之前添加消息监听
-window.addEventListener('message', function(event) {
-  if (event.origin === 'https://x1aohe1.github.io') {
-    console.log('Admin received auth message:', event.data);
-    
-    if (event.data && event.data.type === 'authorization') {
-      console.log('Processing authorization callback...');
-      
-      // 让 CMS 处理认证回调
-      if (window.CMS && window.CMS.handleAuthCallback) {
-        window.CMS.handleAuthCallback(event.data.data);
-      }
-    }
-  }
-});
-window.addEventListener('message', function(event) {
-  if (event.origin === 'https://x1aohe1.github.io') {
-    console.log('Admin received auth message:', event.data);
-    
-    if (event.data && event.data.type === 'authorization') {
-      console.log('Processing authorization callback...');
-      
-      // 方法1：使用 CMS 内置方法
-      if (window.CMS && window.CMS.handleAuthCallback) {
-        console.log('Using CMS.handleAuthCallback');
-        CMS.handleAuthCallback(event.data.data);
-        
-        // 添加状态检查和重定向
-        setTimeout(() => {
-          checkAuthStatus();
-        }, 2000);
-      }
-    }
-  }
-});
-
-// 检查认证状态并刷新
-function checkAuthStatus() {
-  console.log('Checking authentication status...');
-  
-  // 检查当前用户
-  if (window.CMS && CMS.getBackend) {
-    const backend = CMS.getBackend();
-    if (backend && backend.currentUser) {
-      backend.currentUser().then(user => {
-        console.log('Current user:', user);
-        if (user) {
-          console.log('User authenticated, refreshing...');
-          window.location.reload();
-        } else {
-          console.log('No user found, authentication may have failed');
-        }
-      }).catch(error => {
-        console.error('Error checking user:', error);
-      });
-    }
-  }
-};
-
-    // 等待所有资源加载完成
     window.addEventListener('load', function() {
-      console.log('Page fully loaded');
+      console.log('Admin page loaded');
       
-      // 额外的安全延迟
       setTimeout(function() {
         if (window.CMS) {
           console.log('Initializing CMS...');
@@ -92,18 +27,9 @@ function checkAuthStatus() {
             console.log('CMS initialized successfully');
           } catch (error) {
             console.error('CMS initialization failed:', error);
-            // 显示错误信息
-            document.getElementById('nc-root').innerHTML = 
-              '<div style="padding: 20px; color: red;">' +
-              '<h3>CMS Loading Error</h3>' +
-              '<p>Please refresh the page or try again later.</p>' +
-              '<button onclick="window.location.reload()">Reload Page</button>' +
-              '</div>';
           }
         } else {
           console.error('CMS object not found');
-          document.getElementById('nc-root').innerHTML = 
-            '<div style="padding: 20px; color: red;">CMS script failed to load. Please refresh.</div>';
         }
       }, 500);
     });
