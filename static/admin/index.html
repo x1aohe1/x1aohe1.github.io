@@ -5,9 +5,102 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>内容管理系统</title>
   <!-- 直接使用 Decap CMS 的官方CDN -->
-  
+  <script>
+    // 日志系统 - 使用 localStorage 持久化存储
+    const cmsLog = {
+      logs: JSON.parse(localStorage.getItem('cms_debug_log')) || [],
+      
+      add: function(message, data = null) {
+        const entry = {
+          time: new Date().toISOString(),
+          message: message,
+          data: data,
+          url: window.location.href,
+          hash: window.location.hash
+        };
+        this.logs.push(entry);
+        // 只保留最近50条日志
+        if (this.logs.length > 50) this.logs.shift();
+        localStorage.setItem('cms_debug_log', JSON.stringify(this.logs));
+        console.log('CMS DEBUG:', message, data);
+      },
+      
+      show: function() {
+        console.table(this.logs);
+        return this.logs;
+      },
+      
+      clear: function() {
+        this.logs = [];
+        localStorage.removeItem('cms_debug_log');
+      }
+    };
+
+    // 记录页面加载
+    cmsLog.add('页面加载', {
+      href: window.location.href,
+      hash: window.location.hash,
+      search: window.location.search
+    });
+  </script>
 </head>
 <body>
+<div id="cms-root">
+    <h2>Decap CMS 加载中...</h2>
+    <button onclick="cmsLog.show()">显示调试日志</button>
+    <button onclick="cmsLog.clear()">清除日志</button>
+  </div>
+
+  <script>
+    // 记录脚本加载完成
+    cmsLog.add('Decap CMS 脚本加载完成', {
+      CMS: typeof window.CMS,
+      DecapCms: typeof window.DecapCms
+    });
+
+    // 监听 hash 变化（OAuth 回调时会带 token 在 hash 中）
+    window.addEventListener('hashchange', function() {
+      cmsLog.add('URL Hash 变化', {
+        oldURL: event.oldURL,
+        newURL: event.newURL,
+        currentHash: window.location.hash
+      });
+    });
+
+    // 页面卸载时记录（窗口关闭）
+    window.addEventListener('beforeunload', function() {
+      cmsLog.add('页面即将卸载/关闭');
+    });
+
+    // DOM 加载完成后记录
+    document.addEventListener('DOMContentLoaded', function() {
+      cmsLog.add('DOM 加载完成');
+    });
+
+    // 检查是否有认证相关的 URL 参数
+    const urlParams = new URLSearchParams(window.location.search);
+    const hashParams = new URLSearchParams(window.location.hash.substring(1));
+    
+    cmsLog.add('URL 参数分析', {
+      searchParams: Object.fromEntries(urlParams),
+      hashParams: Object.fromEntries(hashParams),
+      hasAccessToken: hashParams.has('access_token'),
+      hasError: hashParams.has('error')
+    });
+
+    // 初始化 CMS
+    if (typeof window.CMS !== 'undefined') {
+      cmsLog.add('开始初始化 CMS');
+      try {
+        window.CMS.init();
+        cmsLog.add('CMS 初始化完成');
+      } catch (error) {
+        cmsLog.add('CMS 初始化错误', error.toString());
+      }
+    } else {
+      cmsLog.add('错误: CMS 对象未定义');
+    }
+
   <!-- 脚本会自动将 <div> 替换为 Decap CMS 界面 -->
   <div id="ncms"></div>
 <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
