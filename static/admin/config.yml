@@ -6,7 +6,6 @@ backend:
   auth_type: web  # 改为 web
   client_id: Ov23liUDGabIOat1t2KY
   scope: repo,user:email  # 添加这行git-gateway
-  branch: main
   
   site_url: https://x1aohe1.github.io/x1aohe1.github.io
   display_url: https://x1aohe1.github.io/x1aohe1.github.io
