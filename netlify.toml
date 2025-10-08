@@ -5,7 +5,13 @@
 [build.environment]
   HUGO_VERSION = "0.120.4"
 
+# 重要：添加这些重定向规则
 [[redirects]]
   from = "/admin/*"
   to = "/admin/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
   status = 200
