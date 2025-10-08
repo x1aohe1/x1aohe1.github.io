@@ -1,0 +1,13 @@
+baseURL = "https://x1aohe1.github.io/"
+languageCode = "zh-cn"
+title = "张大的实验室"
+theme = ""
+
+[params]
+  description = "记录运营日常 × 推进游戏开发 × 寻找同行伙伴"
+
+# 禁用默认主题
+disableKinds = ["taxonomy", "term"]
+
+[outputs]
+  home = ["HTML"]

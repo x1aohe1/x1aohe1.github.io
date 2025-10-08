@@ -2,23 +2,41 @@ backend:
   name: github
   repo: x1aohe1/x1aohe1.github.io
   branch: main
-  base_url: https://x1aohe1.github.io
-  auth_type: web  # 改为 web
+  base_url: https://oauth-proxy.decapcms.org
+  auth_scope: public_repo
   client_id: Ov23liUDGabIOat1t2KY
-  scope: repo,user:email  # 添加这行git-gateway
-  
-  site_url: https://x1aohe1.github.io/x1aohe1.github.io
-  display_url: https://x1aohe1.github.io/x1aohe1.github.io
+  open_authoring: false
 
-publish_mode: editorial_workflow # 可选，但推荐使用，可以提供草稿功能
-media_folder: "static/images"
-public_folder: "/images"
+locale: "zh"
+site_url: "https://x1aohe1.github.io"
+display_url: "https://x1aohe1.github.io"
+logo_url: "/images/logo.png"
+
+publish_mode: editorial_workflow
+media_folder: "static/images/uploads"
+public_folder: "/images/uploads"
 
 collections:
-  - name: "posts"
-    label: "Posts"
-    folder: "content/posts"
+  - name: "stories"
+    label: "故事日志"
+    folder: "content/stories"
     create: true
+    slug: "{{slug}}"
     fields:
-      - { label: "Title", name: "title", widget: "string" }
-      - { label: "Body", name: "body", widget: "markdown" }
+      - { label: "标题", name: "title", widget: "string" }
+      - { label: "发布时间", name: "date", widget: "datetime" }
+      - { label: "标签", name: "tags", widget: "string" }
+      - { label: "正文", name: "body", widget: "markdown" }
+
+  - name: "projects"
+    label: "项目"
+    folder: "content/projects"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "项目名称", name: "title", widget: "string" }
+      - { label: "创建时间", name: "date", widget: "datetime" }
+      - { label: "进度", name: "progress", widget: "number", value_type: "int" }
+      - { label: "需求", name: "needs", widget: "list", default: [] }
+      - { label: "项目描述", name: "description", widget: "string" }
+      - { label: "详细内容", name: "body", widget: "markdown" }
