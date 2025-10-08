@@ -4,60 +4,11 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>内容管理系统</title>
-  <!-- 强制不缓存 -->
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Expires" content="0">
+  <!-- 直接使用 Decap CMS 的官方CDN -->
+  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
 </head>
 <body>
-  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
-  
-  <script>
-    // 使用明确的配置，覆盖任何缓存设置
-    window.CMS_MANUAL_INIT = true;
-    
-    document.addEventListener('DOMContentLoaded', function() {
-      if (typeof CMS === 'undefined') {
-        console.error('CMS 未加载');
-        return;
-      }
-
-      // 明确的 GitHub 后端配置
-      const config = {
-        backend: {
-          name: "github",
-          repo: "x1aohe1/x1aohe1.github.io",
-          branch: "main",
-          // 明确使用隐式授权
-          auth_type: "implicit",
-          app_id: "Ov23liUDGabIOat1t2KY",
-          // 明确不使用 base_url（避免任何代理）
-          base_url: null,
-          // 明确不使用其他认证方式
-          auth_scope: "public_repo"
-        },
-        locale: "zh",
-        site_url: "https://x1aohe1.github.io",
-        display_url: "https://x1aohe1.github.io",
-        media_folder: "static/images",
-        public_folder: "/images",
-        collections: [
-          {
-            name: "posts",
-            label: "文章",
-            folder: "content/posts",
-            create: true,
-            fields: [
-              { label: "标题", name: "title", widget: "string" },
-              { label: "正文", name: "body", widget: "markdown" }
-            ]
-          }
-        ]
-      };
-
-      console.log('配置:', config.backend);
-      CMS.init({ config });
-    });
-  </script>
+  <!-- 脚本会自动将 <div> 替换为 Decap CMS 界面 -->
+  <div id="ncms"></div>
 </body>
 </html>
