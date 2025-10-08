@@ -4,107 +4,26 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>内容管理系统</title>
-  
-  <script>
-    // 日志系统
-    const cmsLog = {
-      logs: JSON.parse(localStorage.getItem('cms_debug_log')) || [],
-      
-      add: function(message, data = null) {
-        const entry = {
-          time: new Date().toISOString(),
-          message: message,
-          data: data,
-          url: window.location.href,
-          hash: window.location.hash
-        };
-        this.logs.push(entry);
-        if (this.logs.length > 50) this.logs.shift();
-        localStorage.setItem('cms_debug_log', JSON.stringify(this.logs));
-        console.log('CMS DEBUG:', message, data);
-      },
-      
-      show: function() {
-        console.table(this.logs);
-        return this.logs;
-      },
-      
-      clear: function() {
-        this.logs = [];
-        localStorage.removeItem('cms_debug_log');
-      }
-    };
-
-    cmsLog.add('页面开始加载');
-  </script>
 </head>
 <body>
-  <div id="cms-root">
-    <h2>Decap CMS 加载中...</h2>
-    <button onclick="cmsLog.show()">显示调试日志</button>
-    <button onclick="cmsLog.clear()">清除日志</button>
-  </div>
-
-  <!-- 脚本放在body底部是正确的 -->
+  <script>
+    console.log('=== Decap CMS 启动 ===');
+    console.log('Client ID: Ov23liAUmhoSIaXwoVFa');
+  </script>
+  
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
   
   <script>
-    // 关键改进：延迟检查CMS对象
-    cmsLog.add('脚本标签已执行');
-    
-    // 方法1：立即检查（可能太早）
-    cmsLog.add('立即检查CMS对象', {
-      CMS: typeof window.CMS,
-      DecapCms: typeof window.DecapCms
-    });
-    
-    // 方法2：延迟检查（给脚本时间初始化）
+    // 延迟初始化确保一切就绪
     setTimeout(() => {
-      cmsLog.add('延迟检查CMS对象', {
-        CMS: typeof window.CMS,
-        DecapCms: typeof window.DecapCms,
-        CMS_details: window.CMS ? '存在' : '不存在',
-        DecapCms_details: window.DecapCms ? '存在' : '不存在'
-      });
-      
-      // 尝试初始化
-      if (window.CMS && typeof window.CMS.init === 'function') {
-        cmsLog.add('开始初始化 CMS');
-        try {
-          window.CMS.init();
-          cmsLog.add('CMS 初始化成功！');
-          document.getElementById('cms-root').innerHTML = '<h2>CMS 初始化成功！</h2>';
-        } catch (error) {
-          cmsLog.add('CMS 初始化错误', error.toString());
-          document.getElementById('cms-root').innerHTML = '<h2>初始化错误: ' + error.toString() + '</h2>';
-        }
-      } else if (window.DecapCms && typeof window.DecapCms.init === 'function') {
-        cmsLog.add('开始初始化 DecapCms');
-        try {
-          window.DecapCms.init();
-          cmsLog.add('DecapCms 初始化成功！');
-          document.getElementById('cms-root').innerHTML = '<h2>Decap CMS 初始化成功！</h2>';
-        } catch (error) {
-          cmsLog.add('DecapCms 初始化错误', error.toString());
-          document.getElementById('cms-root').innerHTML = '<h2>初始化错误: ' + error.toString() + '</h2>';
-        }
+      if (window.CMS && window.CMS.init) {
+        console.log('初始化 CMS...');
+        window.CMS.init();
+        console.log('CMS 初始化完成');
       } else {
-        cmsLog.add('错误: 未找到可用的CMS初始化方法');
-        document.getElementById('cms-root').innerHTML = '<h2>错误: CMS对象未正确初始化</h2>';
-        
-        // 列出所有可能的全局变量
-        const possibleGlobals = Object.keys(window).filter(k => 
-          k.toLowerCase().includes('cms') || 
-          k.toLowerCase().includes('decap')
-        );
-        cmsLog.add('相关的全局变量', possibleGlobals);
+        console.error('CMS 未找到');
       }
-    }, 1000); // 延迟1秒，确保脚本完全执行
-    
-    // DOM 加载完成
-    document.addEventListener('DOMContentLoaded', function() {
-      cmsLog.add('DOM 加载完成');
-    });
+    }, 100);
   </script>
 </body>
 </html>
