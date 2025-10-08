@@ -4,11 +4,11 @@ backend:
   branch: main
   auth_type: implicit
   app_id: Ov23liAUmhoSIaXwoVFa
-  base_url: "https://github.com"
-  auth_endpoint: "/login/oauth/authorize"
+  base_url: "https://oauth-proxy.decapcms.org"
+  auth_scope: "public_repo"
 
-site_url: https://x1aohe1.github.io
-display_url: https://x1aohe1.github.io
+site_url: "https://x1aohe1.github.io"
+display_url: "https://x1aohe1.github.io"
 
 media_folder: "static/images"
 public_folder: "/images"
