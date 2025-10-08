@@ -1,10 +1,17 @@
 backend:
-  name: git-gateway
+  name: github
+  repo: x1aohe1/x1aohe1.github.io
   branch: main
+  base_url: https://x1aohe1.github.io
+  auth_type: web  # 改为 web
+  client_id: Ov23liUDGabIOat1t2KY
+  scope: repo,user:email  # 添加这行git-gateway
+  branch: main
+  
+  site_url: https://x1aohe1.github.io/x1aohe1.github.io
+  display_url: https://x1aohe1.github.io/x1aohe1.github.io
 
-site_url: https://relaxed-puffpuff-4f6d04.netlify.app
-display_url: https://relaxed-puffpuff-4f6d04.netlify.app
-
+publish_mode: editorial_workflow # 可选，但推荐使用，可以提供草稿功能
 media_folder: "static/images"
 public_folder: "/images"
 

@@ -3,36 +3,45 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Content Manager</title>
+  <title>内容管理系统</title>
+  <!-- 引入 Decap CMS -->
+  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  
+  <!-- 重要部分：使用 GitHub Actions 的环境变量进行配置 -->
   <script>
-    window.CMS_MANUAL_INIT = true;
+    // 这些环境变量将由 GitHub Actions 在构建时注入
+    // 它们对应您在仓库 Settings 中设置的 Secrets
+    const oauthClientId = process.env.OAUTH_CLIENT_ID || import.meta.env.OAUTH_CLIENT_ID;
+    const oauthClientSecret = process.env.OAUTH_CLIENT_SECRET || import.meta.env.OAUTH_CLIENT_SECRET;
+
+    // 初始化 CMS
+    CMS.init({
+      // 指定使用 GitHub 后端
+      backend: {
+        name: "github",
+        repo: "<你的用户名>/<你的仓库名>", // 例如：x1aohe1/my-blog
+        branch: "main", // 你的主分支
+        base_url: "https://oauth-proxy.decapcms.org", // 用于本地开发时的 OAuth 代理（可选）
+        auth_scope: "repo", // 授权范围，需要 'repo' 权限才能访问私有仓库（如果仓库是私有的）
+        // 关键：在这里使用环境变量
+        app_id: oauthClientId,
+        client_secret: oauthClientSecret,
+      },
+      // 加载您的 CMS 配置
+      config: "yaml", // 或者指向您的 config.yml 文件
+      // 您的其他 CMS 配置...
+      site_url: "https://<你的用户名>.github.io/<你的仓库名>",
+      display_url: "https://<你的用户名>.github.io/<你的仓库名>",
+      media_folder: "static/img",
+      public_folder: "/img",
+      collections: [
+        // ... 您的集合配置（如博客文章）
+      ]
+    });
   </script>
 </head>
 <body>
-  <div id="nc-root">
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-  </div>
-
-  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
-  
-  <script>
-    window.addEventListener('load', function() {
-      console.log('Admin page loaded');
-      
-      setTimeout(function() {
-        if (window.CMS) {
-          console.log('Initializing CMS...');
-          try {
-            CMS.init();
-            console.log('CMS initialized successfully');
-          } catch (error) {
-            console.error('CMS initialization failed:', error);
-          }
-        } else {
-          console.error('CMS object not found');
-        }
-      }, 500);
-    });
-  </script>
+  <!-- CMS 的容器 -->
+  <div id="nc-root"></div>
 </body>
 </html>
