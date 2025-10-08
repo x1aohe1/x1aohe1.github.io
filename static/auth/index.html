@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Authentication Handler</title>
+  <script>
+    // 这个页面专门处理OAuth回调
+    window.addEventListener('load', function() {
+      console.log('Auth callback handler loaded');
+      
+      // 如果已经有认证信息，尝试完成流程
+      if (window.location.search.includes('code=') || 
+          window.location.search.includes('error=')) {
+        
+        // 将控制权交回给Decap CMS
+        if (window.opener) {
+          window.opener.postMessage({
+            type: 'oauth-callback',
+            data: window.location.search
+          }, '*');
+        }
+        
+        // 自动关闭窗口（如果是弹窗）
+        setTimeout(function() {
+          window.close();
+        }, 1000);
+      }
+    });
+  </script>
+</head>
+<body>
+  <div style="padding: 20px; text-align: center;">
+    <h3>Completing Authentication...</h3>
+    <p>If this page doesn't close automatically, you can close it manually.</p>
+    <button onclick="window.close()">Close Window</button>
+  </div>
+</body>
+</html>
