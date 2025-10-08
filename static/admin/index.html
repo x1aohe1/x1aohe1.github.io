@@ -81,32 +81,58 @@ function checkAuthStatus() {
 
     // 等待所有资源加载完成
     window.addEventListener('load', function() {
-      console.log('Page fully loaded');
+  console.log('Page fully loaded');
+  
+  setTimeout(function() {
+    if (window.CMS) {
+      console.log('Initializing CMS...');
       
-      // 额外的安全延迟
-      setTimeout(function() {
-        if (window.CMS) {
-          console.log('Initializing CMS...');
-          try {
-            CMS.init();
-            console.log('CMS initialized successfully');
-          } catch (error) {
-            console.error('CMS initialization failed:', error);
-            // 显示错误信息
-            document.getElementById('nc-root').innerHTML = 
-              '<div style="padding: 20px; color: red;">' +
-              '<h3>CMS Loading Error</h3>' +
-              '<p>Please refresh the page or try again later.</p>' +
-              '<button onclick="window.location.reload()">Reload Page</button>' +
-              '</div>';
+      try {
+        CMS.init();
+        console.log('CMS initialized successfully');
+        
+        // === 添加从这里开始 ===
+        // 详细检查后端状态
+        setTimeout(() => {
+          console.log('=== 详细后端状态检查 ===');
+          const backend = CMS.getBackend();
+          console.log('Backend object:', backend);
+          console.log('Backend name:', backend?.name);
+          console.log('Backend auth component:', backend?.authComponent);
+          
+          // 检查登录按钮是否存在
+          const loginButtons = document.querySelectorAll('button, [class*="login"], [class*="auth"]');
+          console.log('Potential login buttons:', loginButtons);
+          
+          // 检查CMS配置
+          const config = CMS.getConfig();
+          console.log('CMS config backend:', config?.backend);
+          
+          // 检查当前用户状态
+          if (backend && backend.currentUser) {
+            backend.currentUser().then(user => {
+              console.log('Current user:', user);
+            });
           }
-        } else {
-          console.error('CMS object not found');
-          document.getElementById('nc-root').innerHTML = 
-            '<div style="padding: 20px; color: red;">CMS script failed to load. Please refresh.</div>';
-        }
-      }, 500);
-    });
+        }, 2000);
+        // === 添加到这里结束 ===
+        
+      } catch (error) {
+        console.error('CMS initialization failed:', error);
+        document.getElementById('nc-root').innerHTML = 
+          '<div style="padding: 20px; color: red;">' +
+          '<h3>CMS Loading Error</h3>' +
+          '<p>Please refresh the page or try again later.</p>' +
+          '<button onclick="window.location.reload()">Reload Page</button>' +
+          '</div>';
+      }
+    } else {
+      console.error('CMS object not found');
+      document.getElementById('nc-root').innerHTML = 
+        '<div style="padding: 20px; color: red;">CMS script failed to load. Please refresh.</div>';
+    }
+  }, 500);
+});
   </script>
 </body>
 </html>
