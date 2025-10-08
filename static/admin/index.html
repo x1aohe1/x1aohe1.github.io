@@ -35,6 +35,49 @@ window.addEventListener('message', function(event) {
     }
   }
 });
+window.addEventListener('message', function(event) {
+  if (event.origin === 'https://x1aohe1.github.io') {
+    console.log('Admin received auth message:', event.data);
+    
+    if (event.data && event.data.type === 'authorization') {
+      console.log('Processing authorization callback...');
+      
+      // 方法1：使用 CMS 内置方法
+      if (window.CMS && window.CMS.handleAuthCallback) {
+        console.log('Using CMS.handleAuthCallback');
+        CMS.handleAuthCallback(event.data.data);
+        
+        // 添加状态检查和重定向
+        setTimeout(() => {
+          checkAuthStatus();
+        }, 2000);
+      }
+    }
+  }
+});
+
+// 检查认证状态并刷新
+function checkAuthStatus() {
+  console.log('Checking authentication status...');
+  
+  // 检查当前用户
+  if (window.CMS && CMS.getBackend) {
+    const backend = CMS.getBackend();
+    if (backend && backend.currentUser) {
+      backend.currentUser().then(user => {
+        console.log('Current user:', user);
+        if (user) {
+          console.log('User authenticated, refreshing...');
+          window.location.reload();
+        } else {
+          console.log('No user found, authentication may have failed');
+        }
+      }).catch(error => {
+        console.error('Error checking user:', error);
+      });
+    }
+  }
+};
 
     // 等待所有资源加载完成
     window.addEventListener('load', function() {
