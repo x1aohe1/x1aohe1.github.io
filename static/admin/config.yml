@@ -3,6 +3,7 @@ backend:
   repo: x1aohe1/x1aohe1.github.io
   branch: main
   auth_type: implicit
+  base_url: https://x1aohe1.github.io 
 
 site_url: https://x1aohe1.github.io
 display_url: https://x1aohe1.github.io
