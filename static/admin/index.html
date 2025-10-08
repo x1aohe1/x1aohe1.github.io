@@ -4,6 +4,102 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>内容管理系统</title>
+</head>
+<body>
+  <!-- 让 CMS 自动处理 DOM -->
+  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  
+  <script>
+    // 极简配置，让 CMS 自动初始化
+    window.CMS_CONFIG = {
+      backend: {
+        name: "github",
+        repo: "x1aohe1/x1aohe1.github.io",
+        branch: "main",
+        auth_type: "implicit",
+        app_id: "Ov23liUDGabIOat1t2KY"
+      },
+      media_folder: "static/images",
+      public_folder: "/images",
+      collections: [
+              
+              {
+                name: "project_list",  // 改为唯一名称  
+                label: "项目现场",
+                folder: "content/projects",
+                create: true,
+                slug: "{{slug}}",
+                fields: [
+                  { 
+                    label: "项目名称", 
+                    name: "title", 
+                    widget: "string", 
+                    required: true 
+                  },
+                  { 
+                    label: "创建时间", 
+                    name: "date", 
+                    widget: "datetime", 
+                    required: true 
+                  },
+                  { 
+                    label: "进度百分比", 
+                    name: "progress", 
+                    widget: "number",
+                    value_type: "int",
+                    min: 0,
+                    max: 100,
+                    required: true 
+                  },
+                  { 
+                    label: "项目描述", 
+                    name: "description", 
+                    widget: "text", 
+                    required: true 
+                  }
+                ]
+              },
+              {
+                name: "story_logs",  // 改为唯一名称
+                label: "故事日志", 
+                folder: "content/stories",
+                create: true,
+                slug: "{{slug}}",
+                fields: [
+                  { 
+                    label: "故事标题", 
+                    name: "title", 
+                    widget: "string", 
+                    required: true 
+                  },
+                  { 
+                    label: "记录时间", 
+                    name: "date", 
+                    widget: "datetime", 
+                    required: true 
+                  },
+                  { 
+                    label: "故事内容", 
+                    name: "body", 
+                    widget: "markdown", 
+                    required: true 
+                  }
+                ]
+              }
+            ]
+          
+    };
+  </script>
+</body>
+</html>
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>内容管理系统</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📝</text></svg>">
 </head>
 <body>
