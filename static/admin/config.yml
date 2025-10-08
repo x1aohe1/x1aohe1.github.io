@@ -2,8 +2,8 @@ backend:
   name: git-gateway
   branch: main
 
-site_url: https://68e641d3da075900085bc39b--relaxed-puffpuff-4f6d04.netlify.app
-display_url: https://68e641d3da075900085bc39b--relaxed-puffpuff-4f6d04.netlify.app
+site_url: https://x1aohe1.github.io/
+display_url: https://x1aohe1.github.io/
 
 media_folder: "static/images"
 public_folder: "/images"
