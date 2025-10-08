@@ -1,16 +1,19 @@
 backend:
   name: github
-  repo: x1aohe1/x1aohe1.github.io  # 你的仓库
-  branch: main              # 默认分支
-  base_url: https://x1aohe1.github.io  # 你的站点地址（可选）
-  auth_type: implicit
+  repo: x1aohe1/x1aohe1.github.io
+  branch: main
+  base_url: https://x1aohe1.github.io
+  auth_type: web  # 改为 web
   app_id: Ov23liUDGabIOat1t2KY
+  scope: repo,user:email  # 添加这行
 
-media_folder: "static/images"  # 媒体文件存储路径
-public_folder: "/images"       # 网站中访问图片的路径
+site_url: https://x1aohe1.github.io  # 添加这行
+display_url: https://x1aohe1.github.io
+
+media_folder: "static/images"
+public_folder: "/images"
 
 collections:
-  # 故事日志集合
   - name: "stories"
     label: "故事日志"
     folder: "content/stories"
@@ -22,7 +25,6 @@ collections:
       - { label: "标签", name: "tags", widget: "string" }
       - { label: "正文", name: "body", widget: "markdown" }
 
-  # 项目集合
   - name: "projects"
     label: "项目"
     folder: "content/projects"

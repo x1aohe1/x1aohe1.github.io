@@ -19,6 +19,23 @@
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
   
   <script>
+
+    // 在 CMS.init() 之前添加消息监听
+window.addEventListener('message', function(event) {
+  if (event.origin === 'https://x1aohe1.github.io') {
+    console.log('Admin received auth message:', event.data);
+    
+    if (event.data && event.data.type === 'authorization') {
+      console.log('Processing authorization callback...');
+      
+      // 让 CMS 处理认证回调
+      if (window.CMS && window.CMS.handleAuthCallback) {
+        window.CMS.handleAuthCallback(event.data.data);
+      }
+    }
+  }
+});
+
     // 等待所有资源加载完成
     window.addEventListener('load', function() {
       console.log('Page fully loaded');

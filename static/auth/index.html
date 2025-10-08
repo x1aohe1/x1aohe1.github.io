@@ -2,37 +2,40 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Authentication Handler</title>
-  <script>
-    // 这个页面专门处理OAuth回调
-    window.addEventListener('load', function() {
-      console.log('Auth callback handler loaded');
-      
-      // 如果已经有认证信息，尝试完成流程
-      if (window.location.search.includes('code=') || 
-          window.location.search.includes('error=')) {
-        
-        // 将控制权交回给Decap CMS
-        if (window.opener) {
-          window.opener.postMessage({
-            type: 'oauth-callback',
-            data: window.location.search
-          }, '*');
-        }
-        
-        // 自动关闭窗口（如果是弹窗）
-        setTimeout(function() {
-          window.close();
-        }, 1000);
-      }
-    });
-  </script>
+  <title>Auth Callback</title>
 </head>
 <body>
+  <script>
+    console.log('Auth callback loaded');
+    
+    function sendAuthMessage() {
+      if (window.opener) {
+        const message = {
+          type: 'authorization',
+          data: window.location.href
+        };
+        console.log('Sending auth message:', message);
+        window.opener.postMessage(message, 'https://x1aohe1.github.io');
+        
+        // 尝试关闭窗口
+        setTimeout(() => {
+          if (!window.closed) {
+            window.close();
+          }
+        }, 1000);
+      } else {
+        console.error('No opener window found');
+      }
+    }
+    
+    // 立即发送消息，不等待特定条件
+    sendAuthMessage();
+  </script>
+  
   <div style="padding: 20px; text-align: center;">
-    <h3>Completing Authentication...</h3>
-    <p>If this page doesn't close automatically, you can close it manually.</p>
-    <button onclick="window.close()">Close Window</button>
+    <h3>认证处理中...</h3>
+    <p>如果页面没有自动关闭，请手动关闭此窗口。</p>
+    <button onclick="window.close()">关闭窗口</button>
   </div>
 </body>
 </html>
