@@ -4,84 +4,122 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>内容管理系统</title>
-  
-  <!-- 先创建 DOM 结构 -->
-  <style>
-    body {
-      margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    }
-    #nc-root {
-      min-height: 100vh;
-    }
-  </style>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📝</text></svg>">
 </head>
 <body>
-  <!-- 确保 CMS 容器存在 -->
   <div id="nc-root">
-    <div style="display: flex; justify-content: center; align-items: center; height: 100vh;">
-      <div>正在加载内容管理系统...</div>
+    <div style="display: flex; justify-content: center; align-items: center; height: 100vh; font-family: system-ui;">
+      正在加载内容管理系统...
     </div>
   </div>
 
-  <!-- 将脚本放在 body 末尾 -->
-  <script src="https://cdn.jsdelivr.net/npm/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
   
   <script>
-    // 确保 DOM 完全加载后再初始化
     document.addEventListener('DOMContentLoaded', function() {
-      console.log('DOM 加载完成，检查 CMS...');
-      
-      function initializeCMS() {
-        if (typeof CMS === 'undefined') {
-          console.log('CMS 未加载，等待...');
-          setTimeout(initializeCMS, 100);
-          return;
-        }
-        
-        try {
-          console.log('开始初始化 CMS...');
-          
-          // 使用内联配置，避免文件加载问题
-          CMS.init({
-            config: {
-              backend: {
-                name: "github",
-                repo: "x1aohe1/x1aohe1.github.io",
-                branch: "main",
-                auth_type: "implicit",
-                app_id: "Ov23liUDGabIOat1t2KY"
-              },
-              locale: "zh",
-              site_url: "https://x1aohe1.github.io",
-              display_url: "https://x1aohe1.github.io",
-              media_folder: "static/images/uploads",
-              public_folder: "/images/uploads",
-              collections: [
-                {
-                  name: "stories",
-                  label: "故事日志",
-                  folder: "content/stories",
-                  create: true,
-                  slug: "{{slug}}",
-                  fields: [
-                    { label: "标题", name: "title", widget: "string", required: true },
-                    { label: "发布时间", name: "date", widget: "datetime", required: true },
-                    { label: "正文内容", name: "body", widget: "markdown", required: true }
-                  ]
-                }
-              ]
-            }
-          });
-          
-          console.log('CMS 初始化成功');
-        } catch (error) {
-          console.error('CMS 初始化失败:', error);
-        }
+      if (typeof CMS === 'undefined') {
+        console.error('CMS 未加载');
+        return;
       }
-      
-      // 开始初始化
-      setTimeout(initializeCMS, 100);
+
+      try {
+        // 使用内联配置，确保集合名称唯一
+        CMS.init({
+          config: {
+            backend: {
+              name: "github",
+              repo: "x1aohe1/x1aohe1.github.io",
+              branch: "main", 
+              auth_type: "implicit",
+              app_id: "Ov23liUDGabIOat1t2KY"
+            },
+            locale: "zh",
+            site_url: "https://x1aohe1.github.io",
+            display_url: "https://x1aohe1.github.io",
+            media_folder: "static/images/uploads",
+            public_folder: "/images/uploads",
+            
+            // 确保集合名称唯一
+            collections: [
+              
+              {
+                name: "project_list",  // 改为唯一名称  
+                label: "项目现场",
+                folder: "content/projects",
+                create: true,
+                slug: "{{slug}}",
+                fields: [
+                  { 
+                    label: "项目名称", 
+                    name: "title", 
+                    widget: "string", 
+                    required: true 
+                  },
+                  { 
+                    label: "创建时间", 
+                    name: "date", 
+                    widget: "datetime", 
+                    required: true 
+                  },
+                  { 
+                    label: "进度百分比", 
+                    name: "progress", 
+                    widget: "number",
+                    value_type: "int",
+                    min: 0,
+                    max: 100,
+                    required: true 
+                  },
+                  { 
+                    label: "项目描述", 
+                    name: "description", 
+                    widget: "text", 
+                    required: true 
+                  }
+                ]
+              },
+              {
+                name: "story_logs",  // 改为唯一名称
+                label: "故事日志", 
+                folder: "content/stories",
+                create: true,
+                slug: "{{slug}}",
+                fields: [
+                  { 
+                    label: "故事标题", 
+                    name: "title", 
+                    widget: "string", 
+                    required: true 
+                  },
+                  { 
+                    label: "记录时间", 
+                    name: "date", 
+                    widget: "datetime", 
+                    required: true 
+                  },
+                  { 
+                    label: "故事内容", 
+                    name: "body", 
+                    widget: "markdown", 
+                    required: true 
+                  }
+                ]
+              }
+            ]
+          }
+        });
+        
+        console.log('CMS 初始化成功');
+        
+      } catch (error) {
+        console.error('CMS 初始化失败:', error);
+        document.getElementById('nc-root').innerHTML = 
+          '<div style="padding: 20px; text-align: center; color: red;">' +
+          '<h3>初始化错误</h3>' +
+          '<p>' + error.message + '</p>' +
+          '<button onclick="location.reload()" style="padding: 10px 20px; margin-top: 10px;">刷新页面</button>' +
+          '</div>';
+      }
     });
   </script>
 </body>
