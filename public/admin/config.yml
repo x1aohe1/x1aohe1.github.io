@@ -1,34 +1,40 @@
 backend:
-  name: git-gateway
+  name: github
+  repo: x1aohe1/x1aohe1.github.io
   branch: main
+  auth_type: implicit
+  base_url: https://x1aohe1.github.io 
+  app_id: Ov23liAUmhoSIaXwoVFa
+  auth_endpoint: https://github.com/login/oauth/authorize 
+  scope: repo
 
-site_url: https://68e641d3da075900085bc39b--relaxed-puffpuff-4f6d04.netlify.app  # 替换为您的Netlify域名
-display_url: https://68e641d3da075900085bc39b--relaxed-puffpuff-4f6d04.netlify.app
+site_url: https://x1aohe1.github.io
+display_url: https://x1aohe1.github.io
 
 media_folder: "static/images"
 public_folder: "/images"
 
 collections:
   - name: "stories"
-    label: "Stories"
+    label: "故事日志"
     folder: "content/stories"
     create: true
     slug: "{{slug}}"
     fields:
-      - { label: "Title", name: "title", widget: "string" }
-      - { label: "Publish Date", name: "date", widget: "datetime" }
-      - { label: "Tags", name: "tags", widget: "string" }
-      - { label: "Content", name: "body", widget: "markdown" }
+      - { label: "标题", name: "title", widget: "string" }
+      - { label: "发布时间", name: "date", widget: "datetime" }
+      - { label: "标签", name: "tags", widget: "string" }
+      - { label: "正文", name: "body", widget: "markdown" }
 
   - name: "projects"
-    label: "Projects"
+    label: "项目"
     folder: "content/projects"
     create: true
     slug: "{{slug}}"
     fields:
-      - { label: "Project Name", name: "title", widget: "string" }
-      - { label: "Create Date", name: "date", widget: "datetime" }
-      - { label: "Progress", name: "progress", widget: "number", value_type: "int" }
-      - { label: "Requirements", name: "needs", widget: "list", default: [] }
-      - { label: "Description", name: "description", widget: "string" }
-      - { label: "Details", name: "body", widget: "markdown" }
+      - { label: "项目名称", name: "title", widget: "string" }
+      - { label: "创建时间", name: "date", widget: "datetime" }
+      - { label: "进度", name: "progress", widget: "number", value_type: "int" }
+      - { label: "需求", name: "needs", widget: "list", default: [] }
+      - { label: "项目描述", name: "description", widget: "string" }
+      - { label: "详细内容", name: "body", widget: "markdown" }
