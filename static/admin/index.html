@@ -1,29 +1,32 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>内容管理系统</title>
+  <!-- 强制不缓存 -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
 </head>
 <body>
-  <script>
-    console.log('=== Decap CMS 启动 ===');
-    console.log('Client ID: Ov23liAUmhoSIaXwoVFa');
-  </script>
-  
-  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  <!-- 使用明确的版本 -->
+  <script src="https://unpkg.com/decap-cms@3.8.4/dist/decap-cms.js"></script>
   
   <script>
-    // 延迟初始化确保一切就绪
-    setTimeout(() => {
-      if (window.CMS && window.CMS.init) {
-        console.log('初始化 CMS...');
-        window.CMS.init();
-        console.log('CMS 初始化完成');
-      } else {
-        console.error('CMS 未找到');
+    // 手动初始化，确保配置正确加载
+    window.CMS_MANUAL_INIT = true;
+    
+    document.addEventListener('DOMContentLoaded', function() {
+      if (typeof CMS === 'undefined') {
+        console.error('CMS 未加载');
+        return;
       }
-    }, 100);
+      
+      // 强制重新加载配置
+      CMS.init();
+      console.log('CMS 使用配置文件初始化');
+    });
   </script>
 </body>
 </html>
